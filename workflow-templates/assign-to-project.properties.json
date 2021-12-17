@@ -1,0 +1,4 @@
+{
+    "name": "Assign to Project",
+    "description": "A workflow that assigns issues and PRs to a GitHub Project."
+}

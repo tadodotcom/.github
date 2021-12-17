@@ -1,0 +1,22 @@
+# Assign Issues & PRs to a Project.
+
+name: Assign to Project
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  Check-and-Assign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign new issues and pull requests
+        if: github.event.action == 'opened'
+        uses: tadodotcom/.github/actions/project-auto-assign@main
+        with:
+          project: 'ENTER PROJECT URL HERE'
+          column: 'ENTER COLUMN NAME HERE OR REMOVE PARAM FOR DEFAULTS'
+          token: 'PASS ${{ secrets.ACTIONS_GITHUB_TOKEN }} FOR ORG-WIDE PROJECTS OR REMOVE PARAM FOR DEFAULTS'
