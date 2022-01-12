@@ -1,0 +1,34 @@
+# Automatic Project Assignment
+
+name: 'Assign to Project'
+description: 'Assign Issues or Pull Requests to a specific column of a GitHub Project.'
+inputs:
+  project:
+    description: 'The full url of the Project to assign to.'
+    required: true
+  column:
+    description: 'The name of the Column to assign to. Defaults to "To do" for issues and "In progress" for pull requests.'
+    required: false
+  token:
+    description: 'GitHub Access Token. Defaults to github.token if not provided (current repo scope only).'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        echo "INPUT_PROJECT=${{ inputs.project }}" >> $GITHUB_ENV ;
+        echo "INPUT_COLUMN=${{ inputs.column }}" >> $GITHUB_ENV ;
+
+        if ! [ -z "${{ inputs.token }}" ]; then
+          echo "CUSTOM_GITHUB_TOKEN=${{ inputs.token }}" >> $GITHUB_ENV
+        else
+          echo "GITHUB_TOKEN=${{ github.token }}" >> $GITHUB_ENV
+        fi
+      shell: bash
+    - run: ${{ github.action_path }}/assign-to-project.sh
+      shell: sh
+
+branding:
+  icon: 'layout'
+  color: 'orange'
